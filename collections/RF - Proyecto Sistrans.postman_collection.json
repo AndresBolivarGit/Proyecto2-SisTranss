@@ -1,10 +1,11 @@
 {
 	"info": {
-		"_postman_id": "5530cc41-c88d-4913-894f-40500a1173dc",
+		"_postman_id": "555913ca-2f9e-4f75-89d0-014c73f10ab1",
 		"name": "RF - Proyecto Sistrans",
 		"description": "Colección completa de pruebas para todos los requisitos funcionales del sistema ALPESCAB",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "47849182"
+		"_exporter_id": "47849182",
+		"_collection_link": "https://andresbolivar-8039190.postman.co/workspace/Andres-Bolivar's-Workspace~2e27713d-e462-4897-878f-59205831d640/collection/47849182-555913ca-2f9e-4f75-89d0-014c73f10ab1?action=share&source=collection_link&creator=47849182"
 	},
 	"item": [
 		{
@@ -126,13 +127,13 @@
 					"response": []
 				},
 				{
-					"name": "Registrar Usuario Servicios - María",
+					"name": "Registrar Usuario Servicios (Sin Tarjeta)- María",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"cedula\": 50002,\n  \"nombre\": \"María García\",\n  \"correo\": \"maria.garcia@test.com\",\n  \"celular\": \"3109876543\",\n  \"tarjeta_credito\": {\n    \"numero\": \"4222222222222222\",\n    \"nombre_tarjeta\": \"MARIA GARCIA\",\n    \"fecha_vencimiento\": \"2028-06-30\",\n    \"codigo_seguridad\": \"456\"\n  }\n}",
+							"raw": "{\n  \"cedula\": 50002,\n  \"nombre\": \"María García\",\n  \"correo\": \"maria.garcia@test.com\",\n  \"celular\": \"3109876543\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -150,34 +151,6 @@
 							]
 						},
 						"description": "Registra otro usuario de servicios"
-					},
-					"response": []
-				},
-				{
-					"name": "Fallo - Datos incompletos (sin tarjeta)",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"cedula\": 50003,\n  \"nombre\": \"Usuario Incompleto\",\n  \"correo\": \"incompleto@test.com\",\n  \"celular\": \"3001111111\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base}}/usuarios/servicios",
-							"host": [
-								"{{base}}"
-							],
-							"path": [
-								"usuarios",
-								"servicios"
-							]
-						},
-						"description": "DEBE FALLAR - Falta información de tarjeta de crédito"
 					},
 					"response": []
 				},
@@ -501,142 +474,141 @@
 		{
 			"name": "RF5 - Registrar Disponibilidad",
 			"item": [
-{
-			"name": "Crear Disponibilidad - Transporte Pasajeros (exitoso)",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"cedula_conductor\": 30001,\n  \"placa_vehiculo\": \"XYZ001\",\n  \"dia\": \"2025-11-15\",\n  \"franja_horaria\": \"08:00-12:00\",\n  \"tipo_transporte\": \"TRANSPORTE_PASAJEROS\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+				{
+					"name": "Crear Disponibilidad - Transporte Pasajeros (exitoso)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula_conductor\": 30001,\n  \"placa_vehiculo\": \"XYZ001\",\n  \"dia\": \"2025-11-15\",\n  \"franja_horaria\": \"08:00-12:00\",\n  \"tipo_transporte\": \"TRANSPORTE_PASAJEROS\",\n  \"estado\": \"DISPONIBLE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/disponibilidad",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"disponibilidad"
+							]
+						},
+						"description": "Registra disponibilidad del conductor 30001 para transporte de pasajeros"
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{base}}/disponibilidad",
-					"host": [
-						"{{base}}"
-					],
-					"path": [
-						"disponibilidad"
-					]
+				{
+					"name": "Crear Disponibilidad - Tarde",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula_conductor\": 30001,\n  \"placa_vehiculo\": \"XYZ001\",\n  \"dia\": \"2025-11-15\",\n  \"franja_horaria\": \"14:00-18:00\",\n  \"tipo_transporte\": \"TRANSPORTE_PASAJEROS\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/disponibilidad",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"disponibilidad"
+							]
+						},
+						"description": "Disponibilidad en otro horario (no se superpone)"
+					},
+					"response": []
 				},
-				"description": "Registra disponibilidad del conductor 30001 para transporte de pasajeros"
-			},
-			"response": []
-		},
-{
-			"name": "Crear Disponibilidad - Tarde",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"cedula_conductor\": 30001,\n  \"placa_vehiculo\": \"XYZ001\",\n  \"dia\": \"2025-11-15\",\n  \"franja_horaria\": \"14:00-18:00\",\n  \"tipo_transporte\": \"TRANSPORTE_PASAJEROS\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+				{
+					"name": "Crear Disponibilidad - Entrega Comida",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula_conductor\": 30002,\n  \"placa_vehiculo\": \"XYZ004\",\n  \"dia\": \"2025-11-16\",\n  \"franja_horaria\": \"11:00-15:00\",\n  \"tipo_transporte\": \"ENTREGA_COMIDA\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/disponibilidad",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"disponibilidad"
+							]
+						},
+						"description": "Disponibilidad para entrega de comida en motocicleta"
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{base}}/disponibilidad",
-					"host": [
-						"{{base}}"
-					],
-					"path": [
-						"disponibilidad"
-					]
+				{
+					"name": "Crear Disponibilidad - Transporte Mercancías",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula_conductor\": 30002,\n  \"placa_vehiculo\": \"XYZ003\",\n  \"dia\": \"2025-11-17\",\n  \"franja_horaria\": \"09:00-17:00\",\n  \"tipo_transporte\": \"TRANSPORTE_MERCANCIAS\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/disponibilidad",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"disponibilidad"
+							]
+						},
+						"description": "Disponibilidad para transporte de mercancías"
+					},
+					"response": []
 				},
-				"description": "Disponibilidad en otro horario (no se superpone)"
-			},
-			"response": []
-		},
-{
-			"name": "Crear Disponibilidad - Entrega Comida",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"cedula_conductor\": 30002,\n  \"placa_vehiculo\": \"XYZ004\",\n  \"dia\": \"2025-11-16\",\n  \"franja_horaria\": \"11:00-15:00\",\n  \"tipo_transporte\": \"ENTREGA_COMIDA\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{base}}/disponibilidad",
-					"host": [
-						"{{base}}"
-					],
-					"path": [
-						"disponibilidad"
-					]
-				},
-				"description": "Disponibilidad para entrega de comida en motocicleta"
-			},
-			"response": []
-		},
-{
-			"name": "Crear Disponibilidad - Transporte Mercancías",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"cedula_conductor\": 30002,\n  \"placa_vehiculo\": \"XYZ003\",\n  \"dia\": \"2025-11-17\",\n  \"franja_horaria\": \"09:00-17:00\",\n  \"tipo_transporte\": \"TRANSPORTE_MERCANCIAS\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{base}}/disponibilidad",
-					"host": [
-						"{{base}}"
-					],
-					"path": [
-						"disponibilidad"
-					]
-				},
-				"description": "Disponibilidad para transporte de mercancías"
-			},
-			"response": []
-		},
-
-{
-			"name": "Fallo - Sin conductor",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"placa_vehiculo\": \"XYZ001\",\n  \"dia\": \"2025-11-18\",\n  \"franja_horaria\": \"08:00-12:00\",\n  \"tipo_transporte\": \"TRANSPORTE_PASAJEROS\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{base}}/disponibilidad",
-					"host": [
-						"{{base}}"
-					],
-					"path": [
-						"disponibilidad"
-					]
-				},
-				"description": "DEBE FALLAR - Falta cédula del conductor"
-			},
-			"response": []
-		}
+				{
+					"name": "Fallo - Sin conductor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"placa_vehiculo\": \"XYZ001\",\n  \"dia\": \"2025-11-18\",\n  \"franja_horaria\": \"08:00-12:00\",\n  \"tipo_transporte\": \"TRANSPORTE_PASAJEROS\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/disponibilidad",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"disponibilidad"
+							]
+						},
+						"description": "DEBE FALLAR - Falta cédula del conductor"
+					},
+					"response": []
+				}
 			],
 			"description": "RF5 - REGISTRAR LA DISPONIBILIDAD DE UN USUARIO CONDUCTOR\nUn conductor puede seleccionar días y rangos horarios para prestar servicios."
 		},
@@ -671,62 +643,62 @@
 					},
 					"response": []
 				},
-{
-			"name": "Modificar Disponibilidad - Cambiar día",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"cedula_conductor\": 30001,\n  \"placa_vehiculo\": \"XYZ001\",\n  \"dia\": \"2025-11-20\",\n  \"franja_horaria\": \"08:00-12:00\",\n  \"tipo_transporte\": \"TRANSPORTE_PASAJEROS\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+				{
+					"name": "Modificar Disponibilidad - Cambiar día",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula_conductor\": 30001,\n  \"placa_vehiculo\": \"XYZ001\",\n  \"dia\": \"2025-11-20\",\n  \"franja_horaria\": \"08:00-12:00\",\n  \"tipo_transporte\": \"TRANSPORTE_PASAJEROS\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/disponibilidad/1",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"disponibilidad",
+								"1"
+							]
+						},
+						"description": "Cambia el día de la disponibilidad"
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{base}}/disponibilidad/1",
-					"host": [
-						"{{base}}"
-					],
-					"path": [
-						"disponibilidad",
-						"1"
-					]
-				},
-				"description": "Cambia el día de la disponibilidad"
-			},
-			"response": []
-		},
-{
-			"name": "Fallo - Modificación con superposición",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"cedula_conductor\": 30001,\n  \"placa_vehiculo\": \"XYZ001\",\n  \"dia\": \"2025-11-15\",\n  \"franja_horaria\": \"15:00-19:00\",\n  \"tipo_transporte\": \"TRANSPORTE_PASAJEROS\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{base}}/disponibilidad/1",
-					"host": [
-						"{{base}}"
-					],
-					"path": [
-						"disponibilidad",
-						"1"
-					]
-				},
-				"description": "DEBE FALLAR - Nueva franja se superpone con 14:00-18:00"
-			},
-			"response": []
-		}
+				{
+					"name": "Fallo - Modificación con superposición",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula_conductor\": 30001,\n  \"placa_vehiculo\": \"XYZ001\",\n  \"dia\": \"2025-11-15\",\n  \"franja_horaria\": \"15:00-19:00\",\n  \"tipo_transporte\": \"TRANSPORTE_PASAJEROS\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/disponibilidad/1",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"disponibilidad",
+								"1"
+							]
+						},
+						"description": "DEBE FALLAR - Nueva franja se superpone con 14:00-18:00"
+					},
+					"response": []
+				}
 			],
 			"description": "RF6 - MODIFICAR LA DISPONIBILIDAD DE UN VEHÍCULO PARA SERVICIOS\nUn conductor puede modificar disponibilidades sin crear superposiciones."
 		},
@@ -854,7 +826,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"cedula_solicitante\": 50001,\n  \"id_punto_partida\": 1,\n  \"ids_puntos_destino\": [2],\n  \"tipo_servicio\": \"TRANSPORTE_PASAJEROS\",\n  \"numero_tarjeta\": \"4111111111111111\",\n  \"nivel_transporte\": \"ESTANDAR\"\n}",
+							"raw": "{\n  \"cedula_solicitante\": 50001,\n  \"id_punto_partida\": 1,\n  \"ids_puntos_destino\": [2],\n  \"tipo_servicio\": \"TRANSPORTE_PASAJEROS\",\n  \"nivel_transporte\": \"ESTANDAR\",\n  \"numero_tarjeta\": \"4111111111111111\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -876,13 +848,13 @@
 					"response": []
 				},
 				{
-					"name": "Solicitar Servicio Confort",
+					"name": "Solicitar Servicio - Entrega Comida",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"cedula_solicitante\": 50002,\n  \"id_punto_partida\": 3,\n  \"ids_puntos_destino\": [5],\n  \"tipo_servicio\": \"TRANSPORTE_PASAJEROS\",\n  \"numero_tarjeta\": \"4222222222222222\",\n  \"nivel_transporte\": \"CONFORT\"\n}",
+							"raw": "{\n  \"cedula_solicitante\": 50001,\n  \"id_punto_partida\": 7,\n  \"ids_puntos_destino\": [8],\n  \"tipo_servicio\": \"ENTREGA_COMIDA\",\n  \"numero_tarjeta\": \"4111111111111111\",\n  \"nombre_restaurante\": \"Restaurante La Puerta Falsa\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -899,38 +871,10 @@
 								"solicitar"
 							]
 						},
-						"description": "Solicita servicio de nivel Confort con tarifa superior"
+						"description": "Solicita entrega de comida desde restaurante usando puntos pre-poblados"
 					},
 					"response": []
 				},
-{
-			"name": "Solicitar Servicio - Entrega Comida",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"cedula_solicitante\": 50001,\n  \"id_punto_partida\": 7,\n  \"ids_puntos_destino\": [8],\n  \"tipo_servicio\": \"ENTREGA_COMIDA\",\n  \"numero_tarjeta\": \"4111111111111111\",\n  \"nombre_restaurante\": \"Restaurante La Puerta Falsa\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{base}}/servicios/solicitar",
-					"host": [
-						"{{base}}"
-					],
-					"path": [
-						"servicios",
-						"solicitar"
-					]
-				},
-				"description": "Solicita entrega de comida desde restaurante usando puntos pre-poblados"
-			},
-			"response": []
-		},
 				{
 					"name": "Solicitar con Usuario Poblado",
 					"request": {
@@ -956,6 +900,34 @@
 							]
 						},
 						"description": "Usa usuario ya poblado (2001) y conductor existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Fallo - tarjeta no registrada",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula_solicitante\": 50002,\n  \"id_punto_partida\": 3,\n  \"ids_puntos_destino\": [5],\n  \"tipo_servicio\": \"TRANSPORTE_PASAJEROS\",\n  \"numero_tarjeta\": \"4222222222222222\",\n  \"nivel_transporte\": \"CONFORT\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/servicios/solicitar",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"servicios",
+								"solicitar"
+							]
+						},
+						"description": "Solicita servicio de nivel Confort con tarifa superior"
 					},
 					"response": []
 				},
@@ -1008,13 +980,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base}}/servicios/201/finalizar",
+							"raw": "{{base}}/servicios/212/finalizar",
 							"host": [
 								"{{base}}"
 							],
 							"path": [
 								"servicios",
-								"201",
+								"212",
 								"finalizar"
 							]
 						},
@@ -1113,8 +1085,8 @@
 			"description": "RF9 - REGISTRAR UN VIAJE (FINALIZAR SERVICIO)\nUna vez prestado el servicio, se finaliza registrando distancia, costo y marcando conductor disponible.\n\nNOTA: Ya hay 200 servicios finalizados. Los nuevos tendrán id 201+"
 		},
 		{
-		"name": "RF10 - Revisión Usuario a Conductor",
-		"item": [
+			"name": "RF10 - Revisión Usuario a Conductor",
+			"item": [
 				{
 					"name": "Crear Reseña Pasajero a Conductor (exitoso)",
 					"request": {
@@ -1223,12 +1195,12 @@
 					},
 					"response": []
 				}
-		],
-		"description": "RF10 - DEJAR UNA REVISIÓN POR PARTE DEL USUARIO DE SERVICIOS\nUn pasajero registra reseña a un conductor con calificación (0-5) y comentario."
+			],
+			"description": "RF10 - DEJAR UNA REVISIÓN POR PARTE DEL USUARIO DE SERVICIOS\nUn pasajero registra reseña a un conductor con calificación (0-5) y comentario."
 		},
 		{
-		"name": "RF11 - Revisión Conductor a Usuario",
-		"item": [
+			"name": "RF11 - Revisión Conductor a Usuario",
+			"item": [
 				{
 					"name": "Crear Reseña Conductor a Pasajero (exitoso)",
 					"request": {
@@ -1310,35 +1282,35 @@
 					},
 					"response": []
 				},
-			{
-			"name": "Fallo - Servicio no existe",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"id_servicio\": 99999,\n  \"cedula_autor\": 1001,\n  \"cedula_evaluado\": 2001,\n  \"evaluacion_num\": 5,\n  \"comentario\": \"Servicio inexistente\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{base}}/resenas",
-					"host": [
-						"{{base}}"
-					],
-					"path": [
-						"resenas"
-					]
-				},
-				"description": "DEBE FALLAR - Servicio 99999 no existe"
-			},
-			"response": []
-		}
-		],
-		"description": "RF11 - DEJAR UNA REVISIÓN POR PARTE DE UN USUARIO CONDUCTOR\nUn conductor registra reseña a un pasajero con calificación y comentario."
+				{
+					"name": "Fallo - Servicio no existe",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id_servicio\": 99999,\n  \"cedula_autor\": 1001,\n  \"cedula_evaluado\": 2001,\n  \"evaluacion_num\": 5,\n  \"comentario\": \"Servicio inexistente\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/resenas",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"resenas"
+							]
+						},
+						"description": "DEBE FALLAR - Servicio 99999 no existe"
+					},
+					"response": []
+				}
+			],
+			"description": "RF11 - DEJAR UNA REVISIÓN POR PARTE DE UN USUARIO CONDUCTOR\nUn conductor registra reseña a un pasajero con calificación y comentario."
 		}
 	]
 }
