@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RF2 - Usuario de Servicios - ALPESCAB</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <a href="/rf" class="back-button">← Volver a Requisitos Funcionales</a>
+        
+        <header>
+            <h1> RF2 - Registrar Usuario de Servicios</h1>
+            <p>Registra un usuario pasajero con su tarjeta de crédito</p>
+        </header>
+
+        <div th:if="${success}" class="alert alert-success">
+            <strong>✓ Éxito:</strong> <span th:text="${success}"></span>
+        </div>
+        
+        <div th:if="${error}" class="alert alert-error">
+            <strong>✗ Error:</strong> <span th:text="${error}"></span>
+        </div>
+
+        <form th:action="@{/rf/usuario-servicio}" th:object="${usuario}" method="post">
+            <h3 style="color: #667eea; margin-bottom: 20px;">Información del Usuario</h3>
+            
+            <div class="form-group">
+                <label for="cedula">Cédula *</label>
+                <input type="number" 
+                       id="cedula" 
+                       th:field="*{cedula}" 
+                       placeholder="Ej: 50001" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="nombre">Nombre Completo *</label>
+                <input type="text" 
+                       id="nombre" 
+                       th:field="*{nombre}" 
+                       placeholder="Ej: Juan Pérez" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="correo">Correo Electrónico *</label>
+                <input type="email" 
+                       id="correo" 
+                       th:field="*{correo}" 
+                       placeholder="Ej: juan@example.com" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="celular">Celular</label>
+                <input type="text" 
+                       id="celular" 
+                       th:field="*{celular}" 
+                       placeholder="Ej: 3001234567">
+            </div>
+
+            <h3 style="color: #667eea; margin: 30px 0 20px;">Información de la Tarjeta de Crédito</h3>
+
+            <div class="form-group">
+                <label for="numeroTarjeta">Número de Tarjeta *</label>
+                <input type="text" 
+                       id="numeroTarjeta" 
+                       name="numeroTarjeta" 
+                       placeholder="Ej: 4111111111111111" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="nombreTarjeta">Nombre en la Tarjeta *</label>
+                <input type="text" 
+                       id="nombreTarjeta" 
+                       name="nombreTarjeta" 
+                       placeholder="Ej: JUAN PEREZ" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="fechaVencimiento">Fecha de Vencimiento *</label>
+                <input type="date" 
+                       id="fechaVencimiento" 
+                       name="fechaVencimiento" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="codigoSeguridad">Código de Seguridad (CVV) *</label>
+                <input type="text" 
+                       id="codigoSeguridad" 
+                       name="codigoSeguridad" 
+                       placeholder="Ej: 123" 
+                       maxlength="4"
+                       required>
+            </div>
+
+            <button type="submit">Registrar Usuario de Servicios</button>
+        </form>
+
+        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+            <h3 style="color: #667eea; margin-bottom: 15px;">ℹ️ Información</h3>
+            <ul style="color: #666; line-height: 1.8;">
+                <li>Los usuarios de servicios son los pasajeros que solicitan viajes</li>
+                <li>La tarjeta de crédito se usará para pagar los servicios solicitados</li>
+                <li>Usa cédulas >= 50001 para nuevos usuarios</li>
+                <li>Todos los campos marcados con * son obligatorios</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

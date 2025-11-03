@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFC4 - Uso del Servicio - ALPESCAB</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <a href="/rfc" class="back-button">← Volver a Consultas</a>
+        
+        <header>
+            <h1> RFC4 - Uso del Servicio</h1>
+            <p>Consulta estadísticas de uso del servicio por tipo</p>
+        </header>
+
+        <div th:if="${error}" class="alert alert-error">
+            <strong>✗ Error:</strong> <span th:text="${error}"></span>
+        </div>
+
+        <form th:action="@{/rfc/uso-servicio}" method="post">
+            <div class="form-group">
+                <label for="desde">Fecha y Hora de Inicio *</label>
+                <input type="datetime-local" 
+                       id="desde" 
+                       name="desde" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="hasta">Fecha y Hora de Fin *</label>
+                <input type="datetime-local" 
+                       id="hasta" 
+                       name="hasta" 
+                       required>
+            </div>
+
+            <button type="submit">Consultar Estadísticas</button>
+        </form>
+
+        <div th:if="${success}">
+            <h3 style="color: #667eea; margin-top: 40px;">Estadísticas de Uso</h3>
+            <p style="color: #666; margin-bottom: 20px;">
+                Período: <strong th:text="${desde}"></strong> hasta <strong th:text="${hasta}"></strong>
+            </p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tipo de Servicio</th>
+                        <th>Número de Viajes</th>
+                        <th>Porcentaje del Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="u : ${usoServicio}">
+                        <td><strong th:text="${u.tipoServicio}">TRANSPORTE_PASAJEROS</strong></td>
+                        <td style="text-align: center; font-weight: bold; font-size: 1.1em;">
+                            <span th:text="${u.numeroDeViajes}">50</span>
+                        </td>
+                        <td style="color: #667eea; font-weight: bold;">
+                            <span th:text="${u.porcentajeDelTotal != null ? #numbers.formatDecimal(u.porcentajeDelTotal, 1, 2) + '%' : '0%'}">45.5%</span>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(usoServicio)}">
+                        <td colspan="3" style="text-align: center; color: #999; padding: 30px;">
+                            No se encontraron servicios en el rango de fechas especificado
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div th:if="${!#lists.isEmpty(usoServicio)}" style="margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                <div style="padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; color: white;">
+                    <h4 style="margin-bottom: 10px;">Total de Viajes</h4>
+                    <p style="font-size: 2em; margin: 0;">
+                        <strong th:text="${#aggregates.sum(usoServicio.![numeroDeViajes])}">200</strong>
+                    </p>
+                </div>
+                
+                <div style="padding: 20px; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border-radius: 10px; color: white;">
+                    <h4 style="margin-bottom: 10px;">Tipos de Servicio</h4>
+                    <p style="font-size: 2em; margin: 0;">
+                        <strong th:text="${#lists.size(usoServicio)}">3</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+            <h3 style="color: #667eea; margin-bottom: 15px;">ℹ️ Información</h3>
+            <ul style="color: #666; line-height: 1.8;">
+                <li>Muestra el uso del servicio agrupado por tipo</li>
+                <li>Se contabilizan todos los servicios dentro del rango de fechas</li>
+                <li>El porcentaje muestra la proporción de cada tipo respecto al total</li>
+                <li>Los datos se actualizan en tiempo real desde la base de datos</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

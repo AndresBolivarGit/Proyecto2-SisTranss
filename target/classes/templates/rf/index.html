@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requisitos Funcionales - ALPESCAB</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-button">← Volver al Inicio</a>
+        
+        <header>
+            <h1> Requisitos Funcionales</h1>
+            <p>Selecciona un requisito funcional para ejecutar</p>
+        </header>
+
+        <div class="rf-grid">
+            <div class="rf-item" onclick="window.location.href='/rf/ciudad'">
+                <h3>RF1 - Registrar Ciudad</h3>
+                <p>Registra una nueva ciudad en el sistema</p>
+            </div>
+
+            <div class="rf-item" onclick="window.location.href='/rf/usuario-servicio'">
+                <h3>RF2 - Usuario de Servicios</h3>
+                <p>Registra un usuario pasajero con tarjeta</p>
+            </div>
+
+            <div class="rf-item" onclick="window.location.href='/rf/usuario-conductor'">
+                <h3>RF3 - Usuario Conductor</h3>
+                <p>Registra un conductor en el sistema</p>
+            </div>
+
+            <div class="rf-item" onclick="window.location.href='/rf/vehiculo'">
+                <h3>RF4 - Registrar Vehículo</h3>
+                <p>Registra un vehículo para un conductor</p>
+            </div>
+
+            <div class="rf-item" onclick="window.location.href='/rf/disponibilidad'">
+                <h3>RF5 - Registrar Disponibilidad</h3>
+                <p>Registra disponibilidad de un conductor</p>
+            </div>
+
+            <div class="rf-item" onclick="window.location.href='/rf/disponibilidad/modificar'">
+                <h3>RF6 - Modificar Disponibilidad</h3>
+                <p>Modifica una disponibilidad existente</p>
+            </div>
+
+            <div class="rf-item" onclick="window.location.href='/rf/punto'">
+                <h3>RF7 - Punto Geográfico</h3>
+                <p>Registra un punto de trayecto</p>
+            </div>
+
+            <div class="rf-item" onclick="window.location.href='/rf/servicio'">
+                <h3>RF8 - Solicitar Servicio</h3>
+                <p>Solicita un nuevo servicio de transporte</p>
+            </div>
+
+            <div class="rf-item" onclick="window.location.href='/rf/servicio/finalizar'">
+                <h3>RF9 - Finalizar Servicio</h3>
+                <p>Registra la finalización de un viaje</p>
+            </div>
+
+            <div class="rf-item" onclick="window.location.href='/rf/resena/usuario'">
+                <h3>RF10 - Reseña Usuario</h3>
+                <p>Pasajero evalúa a un conductor</p>
+            </div>
+
+            <div class="rf-item" onclick="window.location.href='/rf/resena/conductor'">
+                <h3>RF11 - Reseña Conductor</h3>
+                <p>Conductor evalúa a un pasajero</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

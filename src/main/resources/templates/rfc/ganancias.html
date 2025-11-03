@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFC3 - Ganancias por Vehículo - ALPESCAB</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <a href="/rfc" class="back-button">← Volver a Consultas</a>
+        
+        <header>
+            <h1> RFC3 - Ganancias por Vehículo</h1>
+            <p>Consulta las ganancias de cada vehículo de un conductor por tipo de servicio</p>
+        </header>
+
+        <div th:if="${error}" class="alert alert-error">
+            <strong>✗ Error:</strong> <span th:text="${error}"></span>
+        </div>
+
+        <form th:action="@{/rfc/ganancias}" method="post">
+            <div class="form-group">
+                <label for="cedulaConductor">Cédula del Conductor *</label>
+                <input type="text" 
+                       id="cedulaConductor" 
+                       name="cedulaConductor" 
+                       placeholder="Ej: 1001" 
+                       required>
+            </div>
+
+            <button type="submit">Consultar Ganancias</button>
+        </form>
+
+        <div th:if="${success}">
+            <h3 style="color: #667eea; margin-top: 40px;">Ganancias del conductor: <span th:text="${cedulaConductor}"></span></h3>
+            
+            <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin-bottom: 20px; border-radius: 5px;">
+                <strong> Modelo de comisiones:</strong> El conductor recibe el <strong>60%</strong> del costo total del servicio. 
+                La plataforma ALPESCAB retiene el <strong>40%</strong> como comisión.
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Placa Vehículo</th>
+                        <th>Tipo de Servicio</th>
+                        <th>Ganancia Neta del Conductor<br><small style="font-weight: normal;">(60% del costo total)</small></th>
+                        <th>Ingresos Brutos<br><small style="font-weight: normal;">(100% del costo)</small></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="g : ${ganancias}">
+                        <td><strong th:text="${g.placaVehiculo}">ABC123</strong></td>
+                        <td th:text="${g.tipoServicio}">TRANSPORTE_PASAJEROS</td>
+                        <td style="color: #28a745; font-weight: bold; font-size: 1.2em;">
+                            <span th:text="${g.gananciaTotal != null ? '$' + #numbers.formatDecimal(g.gananciaTotal, 1, 'POINT', 0, 'COMMA') : '$0'}">$300,000</span>
+                        </td>
+                        <td style="color: #6c757d; font-size: 1.1em;">
+                            <span th:text="${g.gananciaTotal != null ? '$' + #numbers.formatDecimal(g.gananciaTotal / 0.60, 1, 'POINT', 0, 'COMMA') : '$0'}">$500,000</span>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(ganancias)}">
+                        <td colspan="3" style="text-align: center; color: #999; padding: 30px;">
+                            No se encontraron vehículos o servicios para este conductor
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div th:if="${!#lists.isEmpty(ganancias)}" style="margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                <div style="padding: 25px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); border-radius: 10px; color: white;">
+                    <h4 style="margin-bottom: 10px; opacity: 0.9;">💵 Ganancia Neta del Conductor</h4>
+                    <p style="font-size: 2em; margin: 10px 0; font-weight: bold;">
+                        <span th:text="${'$' + #numbers.formatDecimal(#aggregates.sum(ganancias.![gananciaTotal]), 1, 'POINT', 0, 'COMMA')}">$600,000</span>
+                    </p>
+                    <small style="opacity: 0.8;">60% de los ingresos totales</small>
+                </div>
+                
+                <div style="padding: 25px; background: linear-gradient(135deg, #6c757d 0%, #495057 100%); border-radius: 10px; color: white;">
+                    <h4 style="margin-bottom: 10px; opacity: 0.9;">💰 Ingresos Brutos Totales</h4>
+                    <p style="font-size: 2em; margin: 10px 0; font-weight: bold;">
+                        <span th:text="${'$' + #numbers.formatDecimal(#aggregates.sum(ganancias.![gananciaTotal]) / 0.60, 1, 'POINT', 0, 'COMMA')}">$1,000,000</span>
+                    </p>
+                    <small style="opacity: 0.8;">100% del costo de servicios</small>
+                </div>
+                
+                <div style="padding: 25px; background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%); border-radius: 10px; color: white;">
+                    <h4 style="margin-bottom: 10px; opacity: 0.9;">🏢 Comisión Plataforma</h4>
+                    <p style="font-size: 2em; margin: 10px 0; font-weight: bold;">
+                        <span th:text="${'$' + #numbers.formatDecimal(#aggregates.sum(ganancias.![gananciaTotal]) * 0.40 / 0.60, 1, 'POINT', 0, 'COMMA')}">$400,000</span>
+                    </p>
+                    <small style="opacity: 0.8;">40% de los ingresos totales</small>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+            <h3 style="color: #667eea; margin-bottom: 15px;">ℹ️ Información</h3>
+            <ul style="color: #666; line-height: 1.8;">
+                <li><strong>Ganancia Neta:</strong> Es lo que realmente recibe el conductor (60% del costo total)</li>
+                <li><strong>Ingresos Brutos:</strong> Es el costo total que pagó el pasajero (100%)</li>
+                <li><strong>Comisión Plataforma:</strong> Es lo que retiene ALPESCAB (40% del costo total)</li>
+                <li>Ejemplo: Si un servicio cuesta $10,000, el conductor recibe $6,000 y ALPESCAB $4,000</li>
+                <li>Se incluyen todos los servicios finalizados</li>
+                <li>Conductores con datos: 1001-1100</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

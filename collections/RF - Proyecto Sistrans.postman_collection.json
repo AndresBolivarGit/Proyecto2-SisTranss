@@ -1,0 +1,1344 @@
+{
+	"info": {
+		"_postman_id": "5530cc41-c88d-4913-894f-40500a1173dc",
+		"name": "RF - Proyecto Sistrans",
+		"description": "Colección completa de pruebas para todos los requisitos funcionales del sistema ALPESCAB",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47849182"
+	},
+	"item": [
+		{
+			"name": "RF1 - Registrar Ciudad",
+			"item": [
+				{
+					"name": "Registrar Ciudad Nueva (exitoso)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Cartagena\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/ciudades",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"ciudades"
+							]
+						},
+						"description": "Registra una nueva ciudad (Cartagena) que no existe en la BD"
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Ciudad - Barranquilla",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Barranquilla\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/ciudades",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"ciudades"
+							]
+						},
+						"description": "Registra otra ciudad nueva"
+					},
+					"response": []
+				},
+				{
+					"name": "Fallo - Ciudad duplicada (Bogotá ya existe)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Bogotá\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/ciudades",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"ciudades"
+							]
+						},
+						"description": "DEBE FALLAR - Bogotá ya existe en la BD poblada"
+					},
+					"response": []
+				}
+			],
+			"description": "RF1 - REGISTRAR UNA CIUDAD\nRegistra una nueva ciudad en la que se prestarán servicios de transporte para ALPESCAB.\n\nNOTA: Bogotá, Medellín y Cali ya están pobladas en la BD."
+		},
+		{
+			"name": "RF2 - Registrar Usuario de Servicios",
+			"item": [
+				{
+					"name": "Registrar Usuario Servicios - Nuevo (exitoso)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula\": 50001,\n  \"nombre\": \"Juan Pérez RF02\",\n  \"correo\": \"juan.perez.rf02@test.com\",\n  \"celular\": \"3201234567\",\n  \"tarjeta_credito\": {\n    \"numero\": \"4111111111111111\",\n    \"nombre_tarjeta\": \"JUAN PEREZ\",\n    \"fecha_vencimiento\": \"2027-12-31\",\n    \"codigo_seguridad\": \"123\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/usuarios/servicios",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"usuarios",
+								"servicios"
+							]
+						},
+						"description": "Registra un usuario de servicios con cédula 50001 (no colisiona con los existentes 2001-2200)"
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Usuario Servicios - María",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula\": 50002,\n  \"nombre\": \"María García\",\n  \"correo\": \"maria.garcia@test.com\",\n  \"celular\": \"3109876543\",\n  \"tarjeta_credito\": {\n    \"numero\": \"4222222222222222\",\n    \"nombre_tarjeta\": \"MARIA GARCIA\",\n    \"fecha_vencimiento\": \"2028-06-30\",\n    \"codigo_seguridad\": \"456\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/usuarios/servicios",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"usuarios",
+								"servicios"
+							]
+						},
+						"description": "Registra otro usuario de servicios"
+					},
+					"response": []
+				},
+				{
+					"name": "Fallo - Datos incompletos (sin tarjeta)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula\": 50003,\n  \"nombre\": \"Usuario Incompleto\",\n  \"correo\": \"incompleto@test.com\",\n  \"celular\": \"3001111111\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/usuarios/servicios",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"usuarios",
+								"servicios"
+							]
+						},
+						"description": "DEBE FALLAR - Falta información de tarjeta de crédito"
+					},
+					"response": []
+				},
+				{
+					"name": "Fallo - Cédula duplicada",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula\": 50001,\n  \"nombre\": \"Usuario Duplicado\",\n  \"correo\": \"duplicado@test.com\",\n  \"celular\": \"3002222222\",\n  \"tarjeta_credito\": {\n    \"numero\": \"4333333333333333\",\n    \"nombre_tarjeta\": \"DUPLICADO\",\n    \"fecha_vencimiento\": \"2027-12-31\",\n    \"codigo_seguridad\": \"789\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/usuarios/servicios",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"usuarios",
+								"servicios"
+							]
+						},
+						"description": "DEBE FALLAR - Cédula 50001 ya fue registrada"
+					},
+					"response": []
+				}
+			],
+			"description": "RF2 - REGISTRAR UN USUARIO DE SERVICIOS\nUn usuario puede darse de alta en la aplicación como pasajero.\n\nNOTA: Cédulas 2001-2200 ya existen. Use 50000+ para nuevos."
+		},
+		{
+			"name": "RF3 - Registrar Usuario Conductor",
+			"item": [
+				{
+					"name": "Registrar Conductor - Nuevo (exitoso)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula\": 30001,\n  \"nombre\": \"Carlos Rodríguez RF03\",\n  \"correo\": \"carlos.rodriguez.rf03@alpescab.com\",\n  \"celular\": \"3151234567\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/usuarios/conductores",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"usuarios",
+								"conductores"
+							]
+						},
+						"description": "Registra un conductor con cédula 30001 (no colisiona con existentes 1001-1100)"
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Conductor - Ana",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula\": 30002,\n  \"nombre\": \"Ana López\",\n  \"correo\": \"ana.lopez@alpescab.com\",\n  \"celular\": \"3167654321\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/usuarios/conductores",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"usuarios",
+								"conductores"
+							]
+						},
+						"description": "Registra otro conductor"
+					},
+					"response": []
+				},
+				{
+					"name": "Fallo - Conductor duplicado",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula\": 30001,\n  \"nombre\": \"Conductor Duplicado\",\n  \"correo\": \"duplicado@alpescab.com\",\n  \"celular\": \"3003333333\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/usuarios/conductores",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"usuarios",
+								"conductores"
+							]
+						},
+						"description": "DEBE FALLAR - Cédula 30001 ya existe"
+					},
+					"response": []
+				},
+				{
+					"name": "Fallo - Correo duplicado",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula\": 30003,\n  \"nombre\": \"Otro Conductor\",\n  \"correo\": \"carlos.rodriguez.rf03@alpescab.com\",\n  \"celular\": \"3004444444\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/usuarios/conductores",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"usuarios",
+								"conductores"
+							]
+						},
+						"description": "DEBE FALLAR - Correo ya está registrado"
+					},
+					"response": []
+				}
+			],
+			"description": "RF3 - REGISTRAR UN USUARIO CONDUCTOR\nUn usuario que va a prestar servicios de transporte puede darse de alta.\n\nNOTA: Cédulas 1001-1100 ya existen. Use 30000+ para nuevos."
+		},
+		{
+			"name": "RF4 - Registrar Vehículo",
+			"item": [
+				{
+					"name": "Registrar Vehículo Estándar (exitoso)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"placa\": \"XYZ001\",\n  \"tipo\": \"carro\",\n  \"marca\": \"Chevrolet\",\n  \"modelo\": 2022,\n  \"color\": \"Blanco\",\n  \"ciudad_placa\": \"Bogotá\",\n  \"capacidad_pasajero\": 4,\n  \"nivel_transporte\": \"ESTANDAR\",\n  \"cedula_dueno\": 30001\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/vehiculos",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"vehiculos"
+							]
+						},
+						"description": "Registra un vehículo Estándar para el conductor 30001"
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Vehículo Confort",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"placa\": \"XYZ002\",\n  \"tipo\": \"carro\",\n  \"marca\": \"Mazda\",\n  \"modelo\": 2023,\n  \"color\": \"Negro\",\n  \"ciudad_placa\": \"Bogotá\",\n  \"capacidad_pasajero\": 4,\n  \"nivel_transporte\": \"CONFORT\",\n  \"cedula_dueno\": 30001\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/vehiculos",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"vehiculos"
+							]
+						},
+						"description": "Registra un vehículo Confort"
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Vehículo Large",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"placa\": \"XYZ003\",\n  \"tipo\": \"camioneta\",\n  \"marca\": \"Toyota\",\n  \"modelo\": 2024,\n  \"color\": \"Gris\",\n  \"ciudad_placa\": \"Bogotá\",\n  \"capacidad_pasajero\": 7,\n  \"nivel_transporte\": \"LARGE\",\n  \"cedula_dueno\": 30002\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/vehiculos",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"vehiculos"
+							]
+						},
+						"description": "Registra un vehículo Large para conductor 30002"
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Vehículo - Motocicleta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"placa\": \"XYZ004\",\n  \"tipo\": \"motocicleta\",\n  \"marca\": \"Yamaha\",\n  \"modelo\": 2023,\n  \"color\": \"Azul\",\n  \"ciudad_placa\": \"Bogotá\",\n  \"capacidad_pasajero\": 1,\n  \"nivel_transporte\": \"ESTANDAR\",\n  \"cedula_dueno\": 30002\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/vehiculos",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"vehiculos"
+							]
+						},
+						"description": "Registra una motocicleta para entregas"
+					},
+					"response": []
+				},
+				{
+					"name": "Fallo - Placa duplicada",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"placa\": \"XYZ001\",\n  \"tipo\": \"carro\",\n  \"marca\": \"Renault\",\n  \"modelo\": 2021,\n  \"color\": \"Rojo\",\n  \"ciudad_placa\": \"Bogotá\",\n  \"capacidad_pasajero\": 4,\n  \"nivel_transporte\": \"ESTANDAR\",\n  \"cedula_dueno\": 30002\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/vehiculos",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"vehiculos"
+							]
+						},
+						"description": "DEBE FALLAR - Placa XYZ001 ya existe"
+					},
+					"response": []
+				},
+				{
+					"name": "Fallo - Conductor no existe",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"placa\": \"XYZ999\",\n  \"tipo\": \"carro\",\n  \"marca\": \"Ford\",\n  \"modelo\": 2020,\n  \"color\": \"Verde\",\n  \"ciudad_placa\": \"Bogotá\",\n  \"capacidad_pasajero\": 4,\n  \"nivel_transporte\": \"ESTANDAR\",\n  \"cedula_dueno\": 99999\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/vehiculos",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"vehiculos"
+							]
+						},
+						"description": "DEBE FALLAR - Conductor 99999 no existe"
+					},
+					"response": []
+				}
+			],
+			"description": "RF4 - REGISTRAR UN VEHÍCULO PARA UN USUARIO CONDUCTOR\nUn conductor puede registrar vehículos con diferentes niveles de servicio.\n\nNOTA: Placas AUT001-AUT100 ya existen. Use XYZ### para nuevos."
+		},
+		{
+			"name": "RF5 - Registrar Disponibilidad",
+			"item": [
+{
+			"name": "Crear Disponibilidad - Transporte Pasajeros (exitoso)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"cedula_conductor\": 30001,\n  \"placa_vehiculo\": \"XYZ001\",\n  \"dia\": \"2025-11-15\",\n  \"franja_horaria\": \"08:00-12:00\",\n  \"tipo_transporte\": \"TRANSPORTE_PASAJEROS\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base}}/disponibilidad",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"disponibilidad"
+					]
+				},
+				"description": "Registra disponibilidad del conductor 30001 para transporte de pasajeros"
+			},
+			"response": []
+		},
+{
+			"name": "Crear Disponibilidad - Tarde",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"cedula_conductor\": 30001,\n  \"placa_vehiculo\": \"XYZ001\",\n  \"dia\": \"2025-11-15\",\n  \"franja_horaria\": \"14:00-18:00\",\n  \"tipo_transporte\": \"TRANSPORTE_PASAJEROS\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base}}/disponibilidad",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"disponibilidad"
+					]
+				},
+				"description": "Disponibilidad en otro horario (no se superpone)"
+			},
+			"response": []
+		},
+{
+			"name": "Crear Disponibilidad - Entrega Comida",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"cedula_conductor\": 30002,\n  \"placa_vehiculo\": \"XYZ004\",\n  \"dia\": \"2025-11-16\",\n  \"franja_horaria\": \"11:00-15:00\",\n  \"tipo_transporte\": \"ENTREGA_COMIDA\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base}}/disponibilidad",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"disponibilidad"
+					]
+				},
+				"description": "Disponibilidad para entrega de comida en motocicleta"
+			},
+			"response": []
+		},
+{
+			"name": "Crear Disponibilidad - Transporte Mercancías",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"cedula_conductor\": 30002,\n  \"placa_vehiculo\": \"XYZ003\",\n  \"dia\": \"2025-11-17\",\n  \"franja_horaria\": \"09:00-17:00\",\n  \"tipo_transporte\": \"TRANSPORTE_MERCANCIAS\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base}}/disponibilidad",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"disponibilidad"
+					]
+				},
+				"description": "Disponibilidad para transporte de mercancías"
+			},
+			"response": []
+		},
+
+{
+			"name": "Fallo - Sin conductor",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"placa_vehiculo\": \"XYZ001\",\n  \"dia\": \"2025-11-18\",\n  \"franja_horaria\": \"08:00-12:00\",\n  \"tipo_transporte\": \"TRANSPORTE_PASAJEROS\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base}}/disponibilidad",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"disponibilidad"
+					]
+				},
+				"description": "DEBE FALLAR - Falta cédula del conductor"
+			},
+			"response": []
+		}
+			],
+			"description": "RF5 - REGISTRAR LA DISPONIBILIDAD DE UN USUARIO CONDUCTOR\nUn conductor puede seleccionar días y rangos horarios para prestar servicios."
+		},
+		{
+			"name": "RF6 - Modificar Disponibilidad",
+			"item": [
+				{
+					"name": "Modificar Disponibilidad (exitoso)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula_conductor\": 30001,\n  \"placa_vehiculo\": \"XYZ001\",\n  \"dia\": \"2026-01-10\",\n  \"franja_horaria\": \"09:00-13:00\",\n  \"tipo_transporte\": \"TRANSPORTE_PASAJEROS\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/disponibilidad/1",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"disponibilidad",
+								"1"
+							]
+						},
+						"description": "Modifica el horario de una disponibilidad existente a una fecha en 2026"
+					},
+					"response": []
+				},
+{
+			"name": "Modificar Disponibilidad - Cambiar día",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"cedula_conductor\": 30001,\n  \"placa_vehiculo\": \"XYZ001\",\n  \"dia\": \"2025-11-20\",\n  \"franja_horaria\": \"08:00-12:00\",\n  \"tipo_transporte\": \"TRANSPORTE_PASAJEROS\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base}}/disponibilidad/1",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"disponibilidad",
+						"1"
+					]
+				},
+				"description": "Cambia el día de la disponibilidad"
+			},
+			"response": []
+		},
+{
+			"name": "Fallo - Modificación con superposición",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"cedula_conductor\": 30001,\n  \"placa_vehiculo\": \"XYZ001\",\n  \"dia\": \"2025-11-15\",\n  \"franja_horaria\": \"15:00-19:00\",\n  \"tipo_transporte\": \"TRANSPORTE_PASAJEROS\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base}}/disponibilidad/1",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"disponibilidad",
+						"1"
+					]
+				},
+				"description": "DEBE FALLAR - Nueva franja se superpone con 14:00-18:00"
+			},
+			"response": []
+		}
+			],
+			"description": "RF6 - MODIFICAR LA DISPONIBILIDAD DE UN VEHÍCULO PARA SERVICIOS\nUn conductor puede modificar disponibilidades sin crear superposiciones."
+		},
+		{
+			"name": "RF7 - Registrar Punto Geográfico",
+			"item": [
+				{
+					"name": "Crear Punto - Recogida (exitoso)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"direccion\": \"Cra 7 #32-16, Bogotá\",\n  \"ciudad\": \"Bogotá\",\n  \"coordenadas\": \"4.6097,-74.0817\",\n  \"tipoPunto\": \"RECOGIDA\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/puntos",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"puntos"
+							]
+						},
+						"description": "Registra un punto de recogida en Bogotá"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Punto - Destino",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"direccion\": \"Av. Eldorado #69-76, Bogotá\",\n  \"ciudad\": \"Bogotá\",\n  \"coordenadas\": \"4.7031,-74.1469\",\n  \"tipoPunto\": \"DESTINO\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/puntos",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"puntos"
+							]
+						},
+						"description": "Registra un punto de destino"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Punto - Con nombre establecimiento",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Centro Comercial Andino\",\n  \"direccion\": \"Carrera 11 #82-71, Bogotá\",\n  \"ciudad\": \"Bogotá\",\n  \"coordenadas\": \"4.6650,-74.0553\",\n  \"tipoPunto\": \"DESTINO\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/puntos",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"puntos"
+							]
+						},
+						"description": "Punto con nombre de establecimiento"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Punto - Restaurante",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Restaurante La Puerta Falsa\",\n  \"direccion\": \"Calle 11 #6-50, Bogotá\",\n  \"ciudad\": \"Bogotá\",\n  \"coordenadas\": \"4.5981,-74.0758\",\n  \"tipoPunto\": \"RECOGIDA\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/puntos",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"puntos"
+							]
+						},
+						"description": "Punto de restaurante para entrega de comida"
+					},
+					"response": []
+				}
+			],
+			"description": "RF7 - REGISTRAR UN PUNTO GEOGRÁFICO\nTodos los usuarios pueden registrar puntos geográficos con nombre, dirección, coordenadas y ciudad.\n\nNOTA: Ya existen 20 puntos (ids 1-20) en Bogotá."
+		},
+		{
+			"name": "RF8 - Solicitar Servicio",
+			"item": [
+				{
+					"name": "Solicitar Servicio Estándar (exitoso)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula_solicitante\": 50001,\n  \"id_punto_partida\": 1,\n  \"ids_puntos_destino\": [2],\n  \"tipo_servicio\": \"TRANSPORTE_PASAJEROS\",\n  \"numero_tarjeta\": \"4111111111111111\",\n  \"nivel_transporte\": \"ESTANDAR\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/servicios/solicitar",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"servicios",
+								"solicitar"
+							]
+						},
+						"description": "Usuario 50001 solicita servicio Estándar. Sistema calcula tarifa, cobra y asigna conductor disponible."
+					},
+					"response": []
+				},
+				{
+					"name": "Solicitar Servicio Confort",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula_solicitante\": 50002,\n  \"id_punto_partida\": 3,\n  \"ids_puntos_destino\": [5],\n  \"tipo_servicio\": \"TRANSPORTE_PASAJEROS\",\n  \"numero_tarjeta\": \"4222222222222222\",\n  \"nivel_transporte\": \"CONFORT\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/servicios/solicitar",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"servicios",
+								"solicitar"
+							]
+						},
+						"description": "Solicita servicio de nivel Confort con tarifa superior"
+					},
+					"response": []
+				},
+{
+			"name": "Solicitar Servicio - Entrega Comida",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"cedula_solicitante\": 50001,\n  \"id_punto_partida\": 7,\n  \"ids_puntos_destino\": [8],\n  \"tipo_servicio\": \"ENTREGA_COMIDA\",\n  \"numero_tarjeta\": \"4111111111111111\",\n  \"nombre_restaurante\": \"Restaurante La Puerta Falsa\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base}}/servicios/solicitar",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"servicios",
+						"solicitar"
+					]
+				},
+				"description": "Solicita entrega de comida desde restaurante usando puntos pre-poblados"
+			},
+			"response": []
+		},
+				{
+					"name": "Solicitar con Usuario Poblado",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula_solicitante\": 2001,\n  \"id_punto_partida\": 5,\n  \"ids_puntos_destino\": [10],\n  \"tipo_servicio\": \"TRANSPORTE_PASAJEROS\",\n  \"numero_tarjeta\": \"4444444444442001\",\n  \"nivel_transporte\": \"ESTANDAR\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/servicios/solicitar",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"servicios",
+								"solicitar"
+							]
+						},
+						"description": "Usa usuario ya poblado (2001) y conductor existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Fallo - Usuario no existe",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula_solicitante\": 99999,\n  \"id_punto_partida\": 1,\n  \"ids_puntos_destino\": [2],\n  \"tipo_servicio\": \"TRANSPORTE_PASAJEROS\",\n  \"numero_tarjeta\": \"4111111111111111\",\n  \"nivel_transporte\": \"ESTANDAR\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/servicios/solicitar",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"servicios",
+								"solicitar"
+							]
+						},
+						"description": "DEBE FALLAR - Usuario 99999 no existe"
+					},
+					"response": []
+				}
+			],
+			"description": "RF8 - SOLICITAR UN SERVICIO POR PARTE DE UN USUARIO DE SERVICIOS\nUn usuario solicita servicio indicando puntos. El sistema calcula tarifa, cobra y asigna conductor disponible.\n\nNOTA: Hay 200 servicios finalizados (ids 1-200), 100 conductores y 20 puntos disponibles."
+		},
+		{
+			"name": "RF9 - Registrar Viaje (Finalizar Servicio)",
+			"item": [
+				{
+					"name": "Finalizar Servicio (exitoso)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"distancia\": \"12.5 km\",\n  \"costo_total\": 15000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/servicios/201/finalizar",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"servicios",
+								"201",
+								"finalizar"
+							]
+						},
+						"description": "Finaliza el servicio 201 registrando distancia y costo. Marca conductor como disponible nuevamente."
+					},
+					"response": []
+				},
+				{
+					"name": "Finalizar Servicio - Viaje Largo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"distancia\": \"45.8 km\",\n  \"costo_total\": 55000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/servicios/202/finalizar",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"servicios",
+								"202",
+								"finalizar"
+							]
+						},
+						"description": "Finaliza un viaje de larga distancia con mayor costo"
+					},
+					"response": []
+				},
+				{
+					"name": "Finalizar Servicio - Viaje Corto",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"distancia\": \"3.2 km\",\n  \"costo_total\": 8000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/servicios/203/finalizar",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"servicios",
+								"203",
+								"finalizar"
+							]
+						},
+						"description": "Finaliza un viaje corto"
+					},
+					"response": []
+				},
+				{
+					"name": "Fallo - Servicio no existe",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"distancia\": \"10 km\",\n  \"costo_total\": 12000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/servicios/99999/finalizar",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"servicios",
+								"99999",
+								"finalizar"
+							]
+						},
+						"description": "DEBE FALLAR - Servicio 99999 no existe"
+					},
+					"response": []
+				}
+			],
+			"description": "RF9 - REGISTRAR UN VIAJE (FINALIZAR SERVICIO)\nUna vez prestado el servicio, se finaliza registrando distancia, costo y marcando conductor disponible.\n\nNOTA: Ya hay 200 servicios finalizados. Los nuevos tendrán id 201+"
+		},
+		{
+		"name": "RF10 - Revisión Usuario a Conductor",
+		"item": [
+				{
+					"name": "Crear Reseña Pasajero a Conductor (exitoso)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id_servicio\": 1,\n  \"cedula_autor\": 2001,\n  \"cedula_evaluado\": 1001,\n  \"evaluacion_num\": 5,\n  \"comentario\": \"Excelente servicio, muy puntual y amable. El vehículo estaba impecable.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/resenas",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"resenas"
+							]
+						},
+						"description": "Pasajero 2001 evalúa al conductor 1001 del servicio 1 con 5 estrellas"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Reseña - Calificación Media",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id_servicio\": 2,\n  \"cedula_autor\": 2002,\n  \"cedula_evaluado\": 1002,\n  \"evaluacion_num\": 3,\n  \"comentario\": \"Servicio aceptable, pero llegó 10 minutos tarde.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/resenas",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"resenas"
+							]
+						},
+						"description": "Reseña con calificación media (3/5) usando datos poblados"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Reseña - Otro Servicio Poblado",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id_servicio\": 3,\n  \"cedula_autor\": 2003,\n  \"cedula_evaluado\": 1003,\n  \"evaluacion_num\": 4,\n  \"comentario\": \"Buen servicio en general, conductor profesional.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/resenas",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"resenas"
+							]
+						},
+						"description": "Usa datos poblados: pasajero 2003 evalúa conductor 1003 del servicio 3"
+					},
+					"response": []
+				},
+				{
+					"name": "Fallo - Calificación inválida (>5)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id_servicio\": 4,\n  \"cedula_autor\": 2004,\n  \"cedula_evaluado\": 1004,\n  \"evaluacion_num\": 6,\n  \"comentario\": \"Calificación fuera de rango\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/resenas",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"resenas"
+							]
+						},
+						"description": "DEBE FALLAR - Calificación debe estar entre 0 y 5"
+					},
+					"response": []
+				}
+		],
+		"description": "RF10 - DEJAR UNA REVISIÓN POR PARTE DEL USUARIO DE SERVICIOS\nUn pasajero registra reseña a un conductor con calificación (0-5) y comentario."
+		},
+		{
+		"name": "RF11 - Revisión Conductor a Usuario",
+		"item": [
+				{
+					"name": "Crear Reseña Conductor a Pasajero (exitoso)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id_servicio\": 5,\n  \"cedula_autor\": 1005,\n  \"cedula_evaluado\": 2005,\n  \"evaluacion_num\": 5,\n  \"comentario\": \"Excelente pasajero, muy respetuoso y puntual en el punto de encuentro.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/resenas",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"resenas"
+							]
+						},
+						"description": "Conductor 1005 evalúa positivamente al pasajero 2005 del servicio 5"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Reseña - Pasajero Problemático",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id_servicio\": 6,\n  \"cedula_autor\": 1006,\n  \"cedula_evaluado\": 2006,\n  \"evaluacion_num\": 2,\n  \"comentario\": \"Pasajero irrespetuoso, no siguió las normas del vehículo.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/resenas",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"resenas"
+							]
+						},
+						"description": "Reseña negativa por mal comportamiento del pasajero usando datos poblados"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Reseña - Otro Servicio Poblado",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id_servicio\": 7,\n  \"cedula_autor\": 1007,\n  \"cedula_evaluado\": 2007,\n  \"evaluacion_num\": 4,\n  \"comentario\": \"Pasajero amable y considerado.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/resenas",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"resenas"
+							]
+						},
+						"description": "Usa datos poblados: conductor 1007 evalúa pasajero 2007"
+					},
+					"response": []
+				},
+			{
+			"name": "Fallo - Servicio no existe",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id_servicio\": 99999,\n  \"cedula_autor\": 1001,\n  \"cedula_evaluado\": 2001,\n  \"evaluacion_num\": 5,\n  \"comentario\": \"Servicio inexistente\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base}}/resenas",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"resenas"
+					]
+				},
+				"description": "DEBE FALLAR - Servicio 99999 no existe"
+			},
+			"response": []
+		}
+		],
+		"description": "RF11 - DEJAR UNA REVISIÓN POR PARTE DE UN USUARIO CONDUCTOR\nUn conductor registra reseña a un pasajero con calificación y comentario."
+		}
+	]
+}

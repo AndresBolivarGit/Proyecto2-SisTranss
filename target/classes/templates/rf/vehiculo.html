@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RF4 - Registrar Vehículo - ALPESCAB</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <a href="/rf" class="back-button">← Volver a Requisitos Funcionales</a>
+        
+        <header>
+            <h1> RF4 - Registrar Vehículo</h1>
+            <p>Registra un vehículo para un conductor</p>
+        </header>
+
+        <div th:if="${success}" class="alert alert-success">
+            <strong>✓ Éxito:</strong> <span th:text="${success}"></span>
+        </div>
+        
+        <div th:if="${error}" class="alert alert-error">
+            <strong>✗ Error:</strong> <span th:text="${error}"></span>
+        </div>
+
+        <form th:action="@{/rf/vehiculo}" th:object="${vehiculo}" method="post">
+            <div class="form-group">
+                <label for="placa">Placa *</label>
+                <input type="text" 
+                       id="placa" 
+                       th:field="*{placa}" 
+                       placeholder="Ej: ABC123" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="tipo">Tipo de Vehículo *</label>
+                <select id="tipo" th:field="*{tipo}" required>
+                    <option value="">Seleccione...</option>
+                    <option value="carro">Carro</option>
+                    <option value="camioneta">Camioneta</option>
+                    <option value="motocicleta">Motocicleta</option>
+                    <option value="PICKUP">Pickup</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="marca">Marca *</label>
+                <input type="text" 
+                       id="marca" 
+                       th:field="*{marca}" 
+                       placeholder="Ej: Toyota, Chevrolet, Mazda..." 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="modelo">Modelo (año) *</label>
+                <input type="number" 
+                       id="modelo" 
+                       th:field="*{modelo}" 
+                       placeholder="Ej: 2020" 
+                       min="1990"
+                       max="2025"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="color">Color *</label>
+                <input type="text" 
+                       id="color" 
+                       th:field="*{color}" 
+                       placeholder="Ej: Blanco, Negro, Gris..." 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="ciudadPlaca">Ciudad de la Placa *</label>
+                <input type="text" 
+                       id="ciudadPlaca" 
+                       th:field="*{ciudadPlaca}" 
+                       placeholder="Ej: Bogotá, Medellín, Cali..." 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="capacidadPasajero">Capacidad de Pasajeros *</label>
+                <input type="number" 
+                       id="capacidadPasajero" 
+                       th:field="*{capacidadPasajero}" 
+                       placeholder="Ej: 4" 
+                       min="1"
+                       max="20"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="nivelTransporte">Nivel de Transporte *</label>
+                <select id="nivelTransporte" th:field="*{nivelTransporte}" required>
+                    <option value="">Seleccione...</option>
+                    <option value="ESTANDAR">Estándar</option>
+                    <option value="CONFORT">Confort</option>
+                    <option value="LARGE">Large</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="cedulaDueno">Cédula del Dueño (Conductor) *</label>
+                <input type="number" 
+                       id="cedulaDueno" 
+                       th:field="*{cedulaDueno}" 
+                       placeholder="Ej: 1001" 
+                       required>
+            </div>
+
+            <button type="submit">Registrar Vehículo</button>
+        </form>
+
+        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+            <h3 style="color: #667eea; margin-bottom: 15px;">ℹ️ Información</h3>
+            <ul style="color: #666; line-height: 1.8;">
+                <li>Cada vehículo debe estar asociado a un conductor existente</li>
+                <li>La placa debe ser única en el sistema</li>
+                <li><strong>Tipos válidos:</strong> carro, camioneta, motocicleta, PICKUP</li>
+                <li><strong>Niveles válidos:</strong> ESTANDAR, CONFORT, LARGE</li>
+                <li>Conductores disponibles: 1001-1100</li>
+                <li>Placas existentes: AUT001-AUT100, MOTO01-MOTO50 (no usar)</li>
+                <li>Ciudades válidas: Bogotá, Medellín, Cali</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFC1 - Historial de Servicios - ALPESCAB</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <a href="/rfc" class="back-button">← Volver a Consultas</a>
+        
+        <header>
+            <h1> RFC1 - Historial de Servicios</h1>
+            <p>Consulta el historial de servicios de un conductor</p>
+        </header>
+
+        <div th:if="${error}" class="alert alert-error">
+            <strong>✗ Error:</strong> <span th:text="${error}"></span>
+        </div>
+
+        <form th:action="@{/rfc/historial}" method="post">
+            <div class="form-group">
+                <label for="cedula">Cédula del Conductor *</label>
+                <input type="text" 
+                       id="cedula" 
+                       name="cedula" 
+                       placeholder="Ej: 1001" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="limite">Número de Servicios a Mostrar *</label>
+                <input type="number" 
+                       id="limite" 
+                       name="limite" 
+                       placeholder="Ej: 10" 
+                       min="1"
+                       max="100"
+                       value="10"
+                       required>
+            </div>
+
+            <button type="submit">Consultar Historial</button>
+        </form>
+
+        <div th:if="${success}">
+            <h3 style="color: #667eea; margin-top: 40px;">Resultados para el conductor: <span th:text="${cedula}"></span></h3>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Servicio</th>
+                        <th>Tipo</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Fin</th>
+                        <th>Costo</th>
+                        <th>Conductor</th>
+                        <th>Placa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="h : ${historial}">
+                        <td th:text="${h.idServicio}">1</td>
+                        <td th:text="${h.tipoServicio}">TRANSPORTE_PASAJEROS</td>
+                        <td th:text="${h.fechaInicio != null ? #temporals.format(h.fechaInicio, 'dd/MM/yyyy HH:mm') : '-'}">01/01/2025 10:00</td>
+                        <td th:text="${h.fechaFin != null ? #temporals.format(h.fechaFin, 'dd/MM/yyyy HH:mm') : 'En curso'}">01/01/2025 11:00</td>
+                        <td th:text="${h.costoTotal != null ? '$' + #numbers.formatDecimal(h.costoTotal, 1, 'POINT', 0, 'COMMA') : '$0'}">$20,000</td>
+                        <td th:text="${h.nombreConductor}">Juan Pérez</td>
+                        <td th:text="${h.placaVehiculo}">AUT001</td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(historial)}">
+                        <td colspan="7" style="text-align: center; color: #999; padding: 30px;">
+                            No se encontraron servicios para este conductor
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+            <h3 style="color: #667eea; margin-bottom: 15px;">ℹ️ Información</h3>
+            <ul style="color: #666; line-height: 1.8;">
+                <li>Esta consulta muestra los servicios más recientes de un conductor</li>
+                <li>Los servicios se ordenan del más reciente al más antiguo</li>
+                <li>Conductores con datos: 1001-1100</li>
+                <li>Puedes limitar la cantidad de resultados mostrados</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

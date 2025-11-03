@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RF1 - Registrar Ciudad - ALPESCAB</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <a href="/rf" class="back-button">← Volver a Requisitos Funcionales</a>
+        
+        <header>
+            <h1> RF1 - Registrar Ciudad</h1>
+            <p>Registra una nueva ciudad en la que se prestarán servicios de transporte</p>
+        </header>
+
+        <div th:if="${success}" class="alert alert-success">
+            <strong>✓ Éxito:</strong> <span th:text="${success}"></span>
+        </div>
+        
+        <div th:if="${error}" class="alert alert-error">
+            <strong>✗ Error:</strong> <span th:text="${error}"></span>
+        </div>
+
+        <form th:action="@{/rf/ciudad}" th:object="${ciudad}" method="post">
+            <div class="form-group">
+                <label for="nombre">Nombre de la Ciudad *</label>
+                <input type="text" 
+                       id="nombre" 
+                       th:field="*{nombre}" 
+                       placeholder="Ej: Bogotá, Medellín, Cali..." 
+                       required>
+            </div>
+
+            <button type="submit">Registrar Ciudad</button>
+        </form>
+
+        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+            <h3 style="color: #667eea; margin-bottom: 15px;">ℹ️ Información</h3>
+            <ul style="color: #666; line-height: 1.8;">
+                <li>Las ciudades ya existentes en el sistema son: <strong>Bogotá, Medellín, Cali</strong></li>
+                <li>No se pueden registrar ciudades con nombres duplicados</li>
+                <li>El nombre de la ciudad es obligatorio</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

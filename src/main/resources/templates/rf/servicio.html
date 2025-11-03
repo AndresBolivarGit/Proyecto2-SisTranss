@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RF8 - Solicitar Servicio - ALPESCAB</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <a href="/rf" class="back-button">← Volver a Requisitos Funcionales</a>
+        
+        <header>
+            <h1> RF8 - Solicitar Servicio</h1>
+            <p>Solicita un nuevo servicio de transporte</p>
+        </header>
+
+        <div th:if="${success}" class="alert alert-success">
+            <strong>✓ Éxito:</strong> <span th:text="${success}"></span>
+        </div>
+        
+        <div th:if="${error}" class="alert alert-error">
+            <strong>✗ Error:</strong> <span th:text="${error}"></span>
+        </div>
+
+        <form th:action="@{/rf/servicio}" th:object="${solicitud}" method="post">
+            <div class="form-group">
+                <label for="cedulaSolicitante">Cédula del Solicitante *</label>
+                <input type="number" 
+                       id="cedulaSolicitante" 
+                       th:field="*{cedulaSolicitante}" 
+                       placeholder="Ej: 50001" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="idPuntoPartida">ID Punto de Partida *</label>
+                <input type="number" 
+                       id="idPuntoPartida" 
+                       th:field="*{idPuntoPartida}" 
+                       placeholder="Ej: 1" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="destino">ID Punto de Destino *</label>
+                <input type="number" 
+                       id="destino" 
+                       name="destino" 
+                       placeholder="Ej: 2" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="tipoServicio">Tipo de Servicio *</label>
+                <select id="tipoServicio" th:field="*{tipoServicio}" required onchange="toggleFields()">
+                    <option value="">Seleccione...</option>
+                    <option value="TRANSPORTE_PASAJEROS">Transporte de Pasajeros</option>
+                    <option value="ENTREGA_COMIDA">Entrega de Comida</option>
+                    <option value="TRANSPORTE_MERCANCIA">Transporte de Mercancía</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="numeroTarjeta">Número de Tarjeta *</label>
+                <input type="text" 
+                       id="numeroTarjeta" 
+                       th:field="*{numeroTarjeta}" 
+                       placeholder="Ej: 4111111111111111" 
+                       required>
+            </div>
+
+            <div class="form-group" id="nivelTransporteGroup" style="display: none;">
+                <label for="nivelTransporte">Nivel de Transporte</label>
+                <select id="nivelTransporte" th:field="*{nivelTransporte}">
+                    <option value="">Seleccione...</option>
+                    <option value="ESTANDAR">Estándar</option>
+                    <option value="CONFORT">Confort</option>
+                    <option value="LARGE">Large</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="restauranteGroup" style="display: none;">
+                <label for="nombreRestaurante">Nombre del Restaurante</label>
+                <input type="text" 
+                       id="nombreRestaurante" 
+                       th:field="*{nombreRestaurante}" 
+                       placeholder="Ej: Restaurante La Puerta Falsa">
+            </div>
+
+            <div class="form-group" id="pesoCargaGroup" style="display: none;">
+                <label for="pesoCarga">Peso de Carga (kg)</label>
+                <input type="number" 
+                       step="0.01"
+                       id="pesoCarga" 
+                       th:field="*{pesoCarga}" 
+                       placeholder="Ej: 50.5">
+            </div>
+
+            <button type="submit">Solicitar Servicio</button>
+        </form>
+
+        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+            <h3 style="color: #667eea; margin-bottom: 15px;">ℹ️ Información</h3>
+            <ul style="color: #666; line-height: 1.8;">
+                <li><strong>Usuarios disponibles:</strong> Cédulas 2001-2200 o 50001+</li>
+                <li><strong>Puntos disponibles:</strong> IDs 1-20 (pre-poblados)</li>
+                <li><strong>Tarjetas:</strong> Usar la tarjeta asociada al usuario</li>
+                <li><strong>Transporte Pasajeros:</strong> Requiere nivel de transporte</li>
+                <li><strong>Entrega Comida:</strong> Requiere nombre del restaurante</li>
+                <li><strong>Transporte Mercancía:</strong> Requiere peso de la carga</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function toggleFields() {
+            var tipoServicio = document.getElementById('tipoServicio').value;
+            
+            document.getElementById('nivelTransporteGroup').style.display = 'none';
+            document.getElementById('restauranteGroup').style.display = 'none';
+            document.getElementById('pesoCargaGroup').style.display = 'none';
+            
+            if (tipoServicio === 'TRANSPORTE_PASAJEROS') {
+                document.getElementById('nivelTransporteGroup').style.display = 'block';
+                document.getElementById('nivelTransporte').required = true;
+            } else if (tipoServicio === 'ENTREGA_COMIDA') {
+                document.getElementById('restauranteGroup').style.display = 'block';
+                document.getElementById('nombreRestaurante').required = true;
+            } else if (tipoServicio === 'TRANSPORTE_MERCANCIA') {
+                document.getElementById('pesoCargaGroup').style.display = 'block';
+                document.getElementById('pesoCarga').required = true;
+            }
+        }
+    </script>
+</body>
+</html>

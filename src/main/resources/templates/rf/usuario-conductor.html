@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RF3 - Usuario Conductor - ALPESCAB</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <a href="/rf" class="back-button">← Volver a Requisitos Funcionales</a>
+        
+        <header>
+            <h1> RF3 - Registrar Usuario Conductor</h1>
+            <p>Registra un conductor en el sistema</p>
+        </header>
+
+        <div th:if="${success}" class="alert alert-success">
+            <strong>✓ Éxito:</strong> <span th:text="${success}"></span>
+        </div>
+        
+        <div th:if="${error}" class="alert alert-error">
+            <strong>✗ Error:</strong> <span th:text="${error}"></span>
+        </div>
+
+        <form th:action="@{/rf/usuario-conductor}" th:object="${usuario}" method="post">
+            <div class="form-group">
+                <label for="cedula">Cédula *</label>
+                <input type="number" 
+                       id="cedula" 
+                       th:field="*{cedula}" 
+                       placeholder="Ej: 60001" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="nombre">Nombre Completo *</label>
+                <input type="text" 
+                       id="nombre" 
+                       th:field="*{nombre}" 
+                       placeholder="Ej: María García" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="correo">Correo Electrónico *</label>
+                <input type="email" 
+                       id="correo" 
+                       th:field="*{correo}" 
+                       placeholder="Ej: maria@example.com" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="celular">Celular</label>
+                <input type="text" 
+                       id="celular" 
+                       th:field="*{celular}" 
+                       placeholder="Ej: 3109876543">
+            </div>
+
+            <button type="submit">Registrar Conductor</button>
+        </form>
+
+        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+            <h3 style="color: #667eea; margin-bottom: 15px;">ℹ️ Información</h3>
+            <ul style="color: #666; line-height: 1.8;">
+                <li>Los conductores son los usuarios que ofrecen servicios de transporte</li>
+                <li>Después de registrar un conductor, debes registrar su vehículo (RF4)</li>
+                <li>Usa cédulas >= 60001 para nuevos conductores</li>
+                <li>Conductores existentes: 1001-1100</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

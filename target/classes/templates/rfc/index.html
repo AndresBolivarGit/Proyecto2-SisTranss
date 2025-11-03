@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultas RFC - ALPESCAB</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-button">← Volver al Inicio</a>
+        
+        <header>
+            <h1> Requerimientos Funcionales de Consulta</h1>
+            <p>Selecciona una consulta para visualizar</p>
+        </header>
+
+        <div class="rfc-grid">
+            <div class="rfc-item" onclick="window.location.href='/rfc/historial'">
+                <h3>RFC1 - Historial de Servicios</h3>
+                <p>Muestra el historial de servicios de un conductor específico en un período de tiempo</p>
+            </div>
+
+            <div class="rfc-item" onclick="window.location.href='/rfc/top-conductores'">
+                <h3>RFC2 - Top 10 Conductores</h3>
+                <p>Muestra los 10 conductores mejor calificados del sistema</p>
+            </div>
+
+            <div class="rfc-item" onclick="window.location.href='/rfc/ganancias'">
+                <h3>RFC3 - Ganancias por Vehículo</h3>
+                <p>Muestra las ganancias de cada vehículo en un rango de fechas</p>
+            </div>
+
+            <div class="rfc-item" onclick="window.location.href='/rfc/uso-servicio'">
+                <h3>RFC4 - Uso del Servicio</h3>
+                <p>Muestra estadísticas de uso del servicio por mes</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

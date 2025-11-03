@@ -1,0 +1,155 @@
+{
+	"info": {
+		"_postman_id": "7c01e4ab-cf84-4265-bb6b-408b3daa1bdb",
+		"name": "RFC - Proyecto Sistrans",
+		"description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47849182",
+		"_collection_link": "https://andresbolivar-8039190.postman.co/workspace/Andres-Bolivar's-Workspace~2e27713d-e462-4897-878f-59205831d640/collection/47849182-7c01e4ab-cf84-4265-bb6b-408b3daa1bdb?action=share&source=collection_link&creator=47849182"
+	},
+	"item": [
+		{
+			"name": "RFC1",
+			"item": []
+		},
+		{
+			"name": "RFC2",
+			"item": []
+		},
+		{
+			"name": "RFC3",
+			"item": []
+		},
+		{
+			"name": "RFC4",
+			"item": []
+		},
+		{
+			"name": "Historial de servicios por usuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/reportes/rfc1/2009?limite=100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"reportes",
+						"rfc1",
+						"2009"
+					],
+					"query": [
+						{
+							"key": "limite",
+							"value": "100"
+						}
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "Top Conductores por Número de Servicios",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/reportes/rfc2/top-conductores?limite=20",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"reportes",
+						"rfc2",
+						"top-conductores"
+					],
+					"query": [
+						{
+							"key": "limite",
+							"value": "20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ganancias por conductor",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/reportes/rfc3/ganancias-conductor/1001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"reportes",
+						"rfc3",
+						"ganancias-conductor",
+						"1001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Utilizacion de servicios en rango de fechas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/reportes/rfc4/uso-servicios?desde=2025-01-01T00:00:00&hasta=2025-12-31T23:59:59\n",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"reportes",
+						"rfc4",
+						"uso-servicios"
+					],
+					"query": [
+						{
+							"key": "desde",
+							"value": "2025-01-01T00:00:00"
+						},
+						{
+							"key": "hasta",
+							"value": "2025-12-31T23:59:59\n"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

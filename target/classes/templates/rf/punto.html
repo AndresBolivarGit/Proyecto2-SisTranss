@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RF7 - Punto Geográfico - ALPESCAB</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <a href="/rf" class="back-button">← Volver a Requisitos Funcionales</a>
+        
+        <header>
+            <h1> RF7 - Registrar Punto Geográfico</h1>
+            <p>Registra un punto de trayecto (partida o destino)</p>
+        </header>
+
+        <div th:if="${success}" class="alert alert-success">
+            <strong>✓ Éxito:</strong> <span th:text="${success}"></span>
+        </div>
+        
+        <div th:if="${error}" class="alert alert-error">
+            <strong>✗ Error:</strong> <span th:text="${error}"></span>
+        </div>
+
+        <form th:action="@{/rf/punto}" th:object="${punto}" method="post">
+            <div class="form-group">
+                <label for="direccion">Dirección *</label>
+                <input type="text" 
+                       id="direccion" 
+                       th:field="*{direccion}" 
+                       placeholder="Ej: Calle 123 #45-67" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="ciudad">Ciudad *</label>
+                <select id="ciudad" th:field="*{ciudad}" required>
+                    <option value="">Seleccione...</option>
+                    <option value="Bogotá">Bogotá</option>
+                    <option value="Medellín">Medellín</option>
+                    <option value="Cali">Cali</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="coordenadas">Coordenadas *</label>
+                <input type="text" 
+                       id="coordenadas" 
+                       th:field="*{coordenadas}" 
+                       placeholder="Ej: 4.6097,-74.0817" 
+                       required>
+                <small style="color: #666;">Formato: latitud,longitud (Ejemplo: 4.6097,-74.0817)</small>
+            </div>
+
+            <div class="form-group">
+                <label for="tipoPunto">Tipo de Punto *</label>
+                <select id="tipoPunto" th:field="*{tipoPunto}" required>
+                    <option value="">Seleccione...</option>
+                    <option value="PARTIDA">Punto de Partida</option>
+                    <option value="DESTINO">Punto de Destino</option>
+                    <option value="AMBOS">Ambos (Partida y Destino)</option>
+                </select>
+            </div>
+
+            <button type="submit">Registrar Punto</button>
+        </form>
+
+        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+            <h3 style="color: #667eea; margin-bottom: 15px;">ℹ️ Información</h3>
+            <ul style="color: #666; line-height: 1.8;">
+                <li>Los puntos geográficos se usan para definir rutas en los servicios</li>
+                <li>Puntos pre-poblados: IDs 1-20</li>
+                <li>Los nuevos puntos recibirán IDs secuenciales automáticamente</li>
+                <li>La ciudad debe existir en el sistema</li>
+                <li>Las coordenadas deben estar en formato: latitud,longitud</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

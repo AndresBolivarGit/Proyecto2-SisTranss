@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RF10 - Reseña Usuario a Conductor - ALPESCAB</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <a href="/rf" class="back-button">← Volver a Requisitos Funcionales</a>
+        
+        <header>
+            <h1> RF10 - Reseña de Usuario a Conductor</h1>
+            <p>Un pasajero evalúa a su conductor después de un viaje</p>
+        </header>
+
+        <div th:if="${success}" class="alert alert-success">
+            <strong>✓ Éxito:</strong> <span th:text="${success}"></span>
+        </div>
+        
+        <div th:if="${error}" class="alert alert-error">
+            <strong>✗ Error:</strong> <span th:text="${error}"></span>
+        </div>
+
+        <form th:action="@{/rf/resena/usuario}" th:object="${resena}" method="post">
+            <div class="form-group">
+                <label for="cedulaAutor">Cédula del Usuario (Pasajero) *</label>
+                <input type="number" 
+                       id="cedulaAutor" 
+                       th:field="*{cedulaAutor}" 
+                       placeholder="Ej: 2001" 
+                       required>
+                <small style="color: #666;">Cédula del pasajero que deja la reseña</small>
+            </div>
+
+            <div class="form-group">
+                <label for="cedulaEvaluado">Cédula del Conductor *</label>
+                <input type="number" 
+                       id="cedulaEvaluado" 
+                       th:field="*{cedulaEvaluado}" 
+                       placeholder="Ej: 1001" 
+                       required>
+                <small style="color: #666;">Cédula del conductor evaluado</small>
+            </div>
+
+            <div class="form-group">
+                <label for="idServicio">ID del Servicio *</label>
+                <input type="number" 
+                       id="idServicio" 
+                       th:field="*{idServicio}" 
+                       placeholder="Ej: 1" 
+                       required>
+                <small style="color: #666;">Servicio en el que el usuario fue pasajero</small>
+            </div>
+
+            <div class="form-group">
+                <label for="evaluacionNum">Calificación (0-5 estrellas) *</label>
+                <select id="evaluacionNum" th:field="*{evaluacionNum}" required>
+                    <option value="">Seleccione...</option>
+                    <option value="0">⭐ 0 - Muy malo</option>
+                    <option value="1">⭐ 1 - Malo</option>
+                    <option value="2">⭐⭐ 2 - Regular</option>
+                    <option value="3">⭐⭐⭐ 3 - Bueno</option>
+                    <option value="4">⭐⭐⭐⭐ 4 - Muy bueno</option>
+                    <option value="5">⭐⭐⭐⭐⭐ 5 - Excelente</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="comentario">Comentario</label>
+                <textarea id="comentario" 
+                          th:field="*{comentario}" 
+                          rows="4"
+                          placeholder="Escribe tu opinión sobre el conductor..."></textarea>
+            </div>
+
+            <button type="submit">Enviar Reseña</button>
+        </form>
+
+        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+            <h3 style="color: #667eea; margin-bottom: 15px;">ℹ️ Información</h3>
+            <ul style="color: #666; line-height: 1.8;">
+                <li>Solo se pueden dejar reseñas de servicios finalizados</li>
+                <li>El usuario debe haber sido el pasajero en ese servicio</li>
+                <li>Combinaciones válidas (Servicio: Pasajero → Conductor):</li>
+                <li style="margin-left: 20px;">• Servicio 1: 2001 → 1001</li>
+                <li style="margin-left: 20px;">• Servicio 2: 2002 → 1002</li>
+                <li style="margin-left: 20px;">• Servicio 3: 2003 → 1003</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

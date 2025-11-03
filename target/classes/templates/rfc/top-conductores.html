@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFC2 - Top 10 Conductores - ALPESCAB</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <a href="/rfc" class="back-button">← Volver a Consultas</a>
+        
+        <header>
+            <h1> RFC2 - Top 10 Conductores</h1>
+            <p>Los 10 conductores con más servicios prestados</p>
+        </header>
+
+        <div th:if="${error}" class="alert alert-error">
+            <strong>✗ Error:</strong> <span th:text="${error}"></span>
+        </div>
+
+        <div th:if="${success}">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Cédula</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Total Servicios</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="conductor, iterStat : ${conductores}">
+                        <td th:text="${iterStat.count}">1</td>
+                        <td th:text="${conductor.cedula}">1001</td>
+                        <td th:text="${conductor.nombre}">Juan Pérez</td>
+                        <td th:text="${conductor.correo}">juan@example.com</td>
+                        <td>
+                            <strong style="color: #667eea; font-size: 1.2em;">
+                                🚗 <span th:text="${conductor.totalServiciosPrestados}">150</span>
+                            </strong>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(conductores)}">
+                        <td colspan="5" style="text-align: center; color: #999; padding: 30px;">
+                            No hay datos disponibles
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                <h3 style="color: #667eea; margin-bottom: 15px;">ℹ️ Información</h3>
+                <ul style="color: #666; line-height: 1.8;">
+                    <li>Esta consulta muestra los conductores ordenados por número de servicios prestados</li>
+                    <li>Solo se muestran conductores que han prestado al menos un servicio</li>
+                    <li>Los datos se actualizan en tiempo real desde la base de datos</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
